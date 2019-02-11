@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>IMD3901A -  A2</title>
+        <meta name="description" content="IMD3901A - A2 - Chrissy Merpaw">
+        <script src="/js/aframe.min.js"></script> <!-- https://github.com/aframevr/aframe -->
+        <script src="/js/spherical-env-map.js"></script> <!-- https://github.com/aframevr/aframe -->
+
+        <script src="/js/clickr.js"></script>
+        <script src="/js/clickb.js"></script>
+        <script src="/js/clickt.js"></script>
+        <script src="/js/clickp.js"></script>
+
+        <script src="/js/remove.js"></script>
+
+        <script src="/js/music.js"></script>
+    </head>
+    <body>
+        <!-- https://aframe.io/docs/0.7.0/components/gltf-model.html#sidebar -->
+        <a-scene shadow="type:basic;">
+                <a-assets timeout="3000">
+                    <img id="cowmap" src="/assets/textures/Cow.png">
+                    <a-asset-item crossorigin="anonymous" id="Cow-obj" src="/assets/models/Cow.obj">
+                    
+                    <!-- floor and cube colours from here: https://glitch.com/@aframe?fbclid=IwAR0sGox2xPh519A4MEG5m82eOKMnbVZYa0XYuOD4NcVbOasvgIemgtCvysw -->
+                    <img id="groundTexture" src="https://cdn.aframe.io/a-painter/images/floor.jpg">
+
+                    <!-- sound found here: https://www.partnersinrhyme.com/soundfx/PUBLIC-DOMAIN-SOUNDS/animal1_sounds/animal_cow2_wav.shtml -->
+                    <a-asset-item crossorigin="anonymous" id="create-sound" src="/assets/sound/moo.ogg" response-type="arraybuffer"></a-asset-item>
+                    <!-- music found here: http://freemusicarchive.org/music/Loyalty_Freak_Music/INSTRUMENTAL_RB_BEATS_TO_SING_OR_RAP_ON/Loyalty_Freak_Music_-_INSTRUMENTAL_RB_BEATS_TO_SING_OR_RAP_ON_-_13_Harsh_Love -->
+                    <a-asset-item crossorigin="anonymous" id="create-music" src="/assets/sound/bg.ogg" response-type="arraybuffer"></a-asset-item>
+                    <!-- sound from "SuperSays" project : https://github.com/supermedium/supersays/tree/master/src/assets -->
+                    <a-asset-item crossorigin="anonymous" id="delete-sound" src="/assets/sound/1.ogg" response-type="arraybuffer"></a-asset-item>
+                </a-assets>
+
+                <a-entity position="0 2 0" camera look-controls wasd-controls>
+                    <a-entity cursor="fuse: true; fuseTimeout: 500;" 
+                              position="0 0 -1"
+                              geometry="primitive:ring; radiusInner:0.02; radiusOuter:0.03;"
+                              material="shader:flat; color:black;">
+                    </a-entity>
+                </a-entity>
+
+                <!-- sound entities we will query and play in components -->
+                <a-entity id="createSound" sound="src:#create-sound"></a-entity>
+                <a-entity id="startMusic" sound="src:#create-music; loop:true"></a-entity>
+                <a-entity id="deleteSound" sound="src:#delete-sound"></a-entity>
+            
+                <a-entity light="type:directional; castShadow:true; intensity:0.6; shadowBias:-0.000001; shadowMapWidth:1024; shadowMapHeight:1024;" position="-0.5 1 1"></a-entity>
+                <a-entity light="type: ambient; intensity: 1.0; color:#bbb;"></a-entity>
+
+                <a-text value="Paint This Cow!" position="-2 4 -5" color="#000" scale="1.5 1.5 1.5"></a-text>
+                <a-text value="Apply new colours by hovering over cubes!" position="-2 3.5 -5" color="#000"></a-text>
+          
+                <a-box id = "red" position="-3 1 -5" clickr rotation="0 0 0" scale="" color="#F44336">
+                </a-box>
+                <a-box id = "blue" position="-3 4 -5" clickb rotation="0 0 0" scale="" color="#2196F3">
+                </a-box>
+                <a-box id = "teal" position="3 1 -5" clickt rotation="0 0 0" scale="" color="#009688">            
+                </a-box>
+                <a-box id = "pink" position="3 4 -5" clickp rotation="0 0 0" scale="" color="#E91E63">
+                </a-box>  
+
+                <a-entity id="cow" obj-model="obj: #Cow-obj" remove position="0 0 -5" rotation="0 -90 0"></a-entity>
+                
+                <a-entity laser-controls="hand: left"></a-entity>
+                <a-entity laser-controls="hand: right"></a-entity>
+
+                <a-plane id="plane" src="#groundTexture" geometry="width:50; height:50;" position="0 0 -4" rotation="-90 0 0"></a-entity>
+            
+                <a-entity id="sky" music
+                    geometry="primitive:sphere; radius:500;"
+                    material="shader:flat; color:#222; side:back; height:2048; width:2048"></a-entity>
+            </a-scene>
+    </body>
+</html>
